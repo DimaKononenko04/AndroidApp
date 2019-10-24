@@ -13,7 +13,7 @@
             android:layout_height="match_parent">
 
         <TextView
-                android:text="Recognized LP number will appear here"
+                android:text="Work log"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView"/>
@@ -37,6 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sendToLpr"/>
+
+        <TextView
+                android:text="Recognized LP number will appear here"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recognitionPlaceholder"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

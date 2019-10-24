@@ -24,6 +24,7 @@ import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.model_manager.RecognizedPlateInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Button chooseImage;
     private Button sendToLpr;
     private TextView textView;
+    private TextView recognitionPlaceholder;
     private Uri contentUri;
 
     private String filePath;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         chooseImage = findViewById(R.id.chooseImage);
         sendToLpr = findViewById(R.id.sendToLpr);
         textView = findViewById(R.id.textView);
+        recognitionPlaceholder = findViewById(R.id.recognitionPlaceholder);
 
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.e("Success response ", response);
                         textView.setText("Recognized Successfully");
+                        recognitionPlaceholder.setText(RecognizedPlateInfo.getLicensePlate(response));
                     }
                 }, new Response.ErrorListener() {
             @Override
