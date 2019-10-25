@@ -1,13 +1,20 @@
 package com.example.uploadimage;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +23,6 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.Volley;
@@ -24,19 +30,24 @@ import com.example.plate_recognition.RecognizedPlateInfo;
 import com.example.restapi.AccessEndpoints;
 import com.example.utils.PropertiesManager;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.os.Environment.getExternalStoragePublicDirectory;
+
 public class MainActivity extends AppCompatActivity {
-    private static final int IMAGE_PICK_CODE = 1;
+    private static final int PICK_GALLERY_CODE = 1;
+    private static final int PICK_CAMERA_CODE = 0;
 
     private ImageView imageView;
     private Button chooseImage;
     private Button sendToLpr;
     private TextView textView;
     private TextView recognitionResultPlaceholder;
-    private Uri contentUri;
+    private Uri pictureUri;
 
     private String filePath;
 
@@ -56,14 +67,16 @@ public class MainActivity extends AppCompatActivity {
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickImageFromGallery();
+//                pickImageFromGallery();
+//                getImageFromCamera();
+                selectImage();
             }
         });
 
         sendToLpr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filePath = getRealPathFromUri(contentUri);
+                filePath = getRealPathFromUri(pictureUri);
                 Log.e("Path to image", filePath);
                 getResponse();
             }
@@ -74,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private void verifyPermissions(){
         Log.e("Permissions","Asking user for permissions");
         String[] permissions =
-                {   Manifest.permission.READ_EXTERNAL_STORAGE,
+                    {   Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA,
                         Manifest.permission.ACCESS_NETWORK_STATE,
@@ -116,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getRealPathFromUri(Uri contentUri){
-        String [] proj ={MediaStore.Images.Media.DATA};
+        String [] data ={MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery( contentUri,
-                proj,
+                data,
                 null,
                 null,
                 null);
@@ -128,19 +141,66 @@ public class MainActivity extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
+    private void selectImage(){
+        final CharSequence[] items ={"Camera", "Gallery", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder
+                .setTitle("Add image")
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (items[which].equals("Camera")){
+                            getImageFromCamera();
+                        }else if (items[which].equals("Gallery")){
+                            pickImageFromGallery();
+                        }else if (items[which].equals("Cancel")){
+                            dialog.dismiss();
+                        }
+                    }
+                });
+        builder.show();
+    }
+
     private void pickImageFromGallery(){
-        // intent to pick image
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent, IMAGE_PICK_CODE);
+        startActivityForResult(intent, PICK_GALLERY_CODE);
+    }
+
+    private void getImageFromCamera(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager())!=null) {
+            File photoFile = createPhotoFile();
+            assert photoFile != null;
+            filePath = photoFile.getAbsolutePath();
+            pictureUri = FileProvider.getUriForFile(MainActivity.this, "com.example.uploadimage.fileprovider", photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+            startActivityForResult(takePictureIntent, PICK_CAMERA_CODE);
+        }
+
+    }
+
+    private File createPhotoFile(){
+        String name = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        try {
+            return File.createTempFile(name,".jpg",storageDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE){
-            // set image to view
-            contentUri = data.getData();
-            imageView.setImageURI(data.getData());
+        if (resultCode == RESULT_OK && requestCode == PICK_CAMERA_CODE) {
+            Log.e("Filepath : ",filePath);
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            imageView.setImageBitmap(bitmap);
+        }
+        if (resultCode == RESULT_OK && requestCode == PICK_GALLERY_CODE){
+            pictureUri = data.getData();
+            imageView.setImageURI(pictureUri);
         }
     }
 
