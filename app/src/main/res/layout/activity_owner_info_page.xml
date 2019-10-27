@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".OwnerInfoPage">
 
     <LinearLayout
             android:orientation="vertical"
@@ -13,43 +13,51 @@
             android:layout_height="match_parent">
 
         <TextView
-                android:text="Work log"
+                android:text="Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView"/>
-
-        <Button
-                android:text="Choose image"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/chooseImage"/>
-
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="256dp"
-                app:srcCompat="@android:drawable/stat_sys_download"
-                android:id="@+id/imageView"/>
-
-        <Button
-                android:text="Recognize license plate"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sendToLpr"/>
+                android:id="@+id/textView2"/>
 
         <TextView
-                android:text="Recognized LP number will appear here"
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"/>
+
+        <TextView
+                android:text="Surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recognitionResultPlaceholder"/>
+                android:id="@+id/textView4"/>
 
-        <Button
-                android:text="View owner info"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
+        <TextView
+                android:text=""
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/getOwnerInfo"/>
+                android:id="@+id/surname"/>
 
+        <TextView
+                android:text="Telephone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6"/>
+
+        <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/telephone"/>
+
+        <TextView
+                android:text="License plate number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView7"/>
+
+        <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/licensePlateNumber"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

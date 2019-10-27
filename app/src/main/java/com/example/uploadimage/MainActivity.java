@@ -1,6 +1,5 @@
 package com.example.uploadimage;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +24,9 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.application_permissions.Permissions;
+import com.example.database_connection.sql_lite.DbHelper;
+import com.example.database_connection.sql_lite.DbManager;
 import com.example.plate_recognition.RecognizedPlateInfo;
 import com.example.restapi.AccessEndpoints;
 import com.example.utils.PropertiesManager;
@@ -45,18 +46,20 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button chooseImage;
     private Button sendToLpr;
+    private Button getOwnerInfo;
     private TextView textView;
     private TextView recognitionResultPlaceholder;
     private Uri pictureUri;
 
     private String filePath;
+    private DbHelper dbHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        verifyPermissions();
+        Permissions.verifyPermissions(MainActivity.this);
 
         imageView = findViewById(R.id.imageView);
         chooseImage = findViewById(R.id.chooseImage);
@@ -64,11 +67,14 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         recognitionResultPlaceholder = findViewById(R.id.recognitionResultPlaceholder);
 
+        getOwnerInfo = findViewById(R.id.getOwnerInfo);
+        getOwnerInfo.setEnabled(false);
+
+        dbHelper = new DbHelper(this);
+
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                pickImageFromGallery();
-//                getImageFromCamera();
                 selectImage();
             }
         });
@@ -79,20 +85,23 @@ public class MainActivity extends AppCompatActivity {
                 filePath = getRealPathFromUri(pictureUri);
                 Log.e("Path to image", filePath);
                 getResponse();
+                getOwnerInfo.setEnabled(true);
+            }
+        });
+
+        getOwnerInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbManager.viewOwnerInfo(dbHelper,recognitionResultPlaceholder);
+                showOwnerInfo();
             }
         });
 
     }
 
-    private void verifyPermissions(){
-        Log.e("Permissions","Asking user for permissions");
-        String[] permissions =
-                    {   Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.ACCESS_NETWORK_STATE,
-                        Manifest.permission.INTERNET};
-        ActivityCompat.requestPermissions(MainActivity.this,permissions,1);
+    private void showOwnerInfo(){
+        Intent intent = new Intent(MainActivity.this,OwnerInfoPage.class);
+        startActivity(intent);
     }
 
     private void getResponse(){
