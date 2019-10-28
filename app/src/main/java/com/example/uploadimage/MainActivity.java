@@ -60,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView);
         chooseImage = findViewById(R.id.chooseImage);
+
         sendToLpr = findViewById(R.id.sendToLpr);
+        sendToLpr.setEnabled(false);
         textView = findViewById(R.id.textView);
         recognitionResultPlaceholder = findViewById(R.id.recognitionResultPlaceholder);
 
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectImage();
+                sendToLpr.setEnabled(true);
             }
         });
 

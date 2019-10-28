@@ -64,5 +64,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/licensePlateNumber"/>
+
+        <Button
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:text="Back to main screen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fromInfoPageToMainScreen"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

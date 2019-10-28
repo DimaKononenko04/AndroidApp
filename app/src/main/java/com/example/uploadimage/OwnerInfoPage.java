@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.example.database_connection.manager.OwnerManager;
 import com.example.database_connection.model.Owner;
 import com.example.database_connection.sql_lite.DbHelper;
+import com.example.utils.LayersManager;
 
 public class OwnerInfoPage extends AppCompatActivity {
 
@@ -16,6 +19,7 @@ public class OwnerInfoPage extends AppCompatActivity {
     TextView surname;
     TextView telephone;
     TextView licensePlateNumber;
+    Button fromInfoPageToMainScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,15 @@ public class OwnerInfoPage extends AppCompatActivity {
         surname = findViewById(R.id.surname);
         telephone = findViewById(R.id.telephone);
         licensePlateNumber = findViewById(R.id.licensePlateNumber);
+        fromInfoPageToMainScreen = findViewById(R.id.fromInfoPageToMainScreen);
         checkIfOwnerIsInDb();
+
+        fromInfoPageToMainScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayersManager.goToMainScreen(OwnerInfoPage.this);
+            }
+        });
     }
 
     private void checkIfOwnerIsInDb(){
@@ -54,7 +66,7 @@ public class OwnerInfoPage extends AppCompatActivity {
                         if (items[which].equals("Yes")){
                             showOwnerInputForm();
                         }else if (items[which].equals("No")){
-                            dialog.dismiss();
+                            LayersManager.goToMainScreen(OwnerInfoPage.this);
                         }
                     }
                 });
