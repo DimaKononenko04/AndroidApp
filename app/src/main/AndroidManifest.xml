@@ -17,6 +17,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".OwnerInputForm">
+        </activity>
         <activity android:name=".OwnerInfoPage">
         </activity>
         <activity android:name=".MainActivity">

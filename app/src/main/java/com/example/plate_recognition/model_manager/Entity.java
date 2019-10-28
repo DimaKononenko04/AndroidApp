@@ -1,4 +1,4 @@
-package com.example.model_manager;
+package com.example.plate_recognition.model_manager;
 
 import com.google.gson.Gson;
 

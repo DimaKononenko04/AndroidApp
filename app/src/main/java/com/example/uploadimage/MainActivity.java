@@ -25,8 +25,6 @@ import com.android.volley.error.VolleyError;
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.application_permissions.Permissions;
-import com.example.database_connection.sql_lite.DbHelper;
-import com.example.database_connection.sql_lite.DbManager;
 import com.example.plate_recognition.RecognizedPlateInfo;
 import com.example.restapi.AccessEndpoints;
 import com.example.utils.PropertiesManager;
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private Uri pictureUri;
 
     private String filePath;
-    private DbHelper dbHelper;
 
 
     @Override
@@ -70,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         getOwnerInfo = findViewById(R.id.getOwnerInfo);
         getOwnerInfo.setEnabled(false);
 
-        dbHelper = new DbHelper(this);
 
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         getOwnerInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbManager.viewOwnerInfo(dbHelper,recognitionResultPlaceholder);
                 showOwnerInfo();
             }
         });
@@ -101,11 +96,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void showOwnerInfo(){
         Intent intent = new Intent(MainActivity.this,OwnerInfoPage.class);
+        intent.putExtra("Filter",recognitionResultPlaceholder.getText());
         startActivity(intent);
     }
 
     private void getResponse(){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         SimpleMultiPartRequest smr = new SimpleMultiPartRequest(Request.Method.POST, AccessEndpoints.LPR_URI,
                 new Response.Listener<String>() {
                     @Override
@@ -186,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
             startActivityForResult(takePictureIntent, PICK_CAMERA_CODE);
         }
-
     }
 
     private File createPhotoFile(){
