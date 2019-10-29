@@ -28,6 +28,7 @@ import com.example.application_permissions.Permissions;
 import com.example.plate_recognition.RecognizedPlateInfo;
 import com.example.restapi.AccessEndpoints;
 import com.example.utils.PropertiesManager;
+import id.zelory.compressor.Compressor;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,8 +39,8 @@ import java.util.Map;
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int PICK_GALLERY_CODE = 1;
-    private static final int PICK_CAMERA_CODE = 0;
+    private static final int PICK_GALLERY_CODE = 100;
+    private static final int PICK_CAMERA_CODE = 101;
 
     private ImageView imageView;
     private Button chooseImage;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private Uri pictureUri;
 
     private String filePath;
+
+    private File photoFile;
 
 
     @Override
@@ -149,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
+    private File compressFile(File photoFile) throws IOException {
+        return new Compressor(this).compressToFile(photoFile);
+    }
+
     private void selectImage(){
         final CharSequence[] items ={"Camera", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -178,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
     private void getImageFromCamera(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager())!=null) {
-            File photoFile = createPhotoFile();
+//            File photoFile = createPhotoFile();
+            photoFile = createPhotoFile();
             assert photoFile != null;
             filePath = photoFile.getAbsolutePath();
             pictureUri = FileProvider.getUriForFile(MainActivity.this, "com.example.uploadimage.fileprovider", photoFile);
@@ -204,6 +212,11 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Filepath : ",filePath);
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
             imageView.setImageBitmap(bitmap);
+            try {
+                filePath = compressFile(photoFile).getAbsolutePath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (resultCode == RESULT_OK && requestCode == PICK_GALLERY_CODE){
             pictureUri = data.getData();
