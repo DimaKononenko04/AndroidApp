@@ -74,17 +74,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectImage();
-                sendToLpr.setEnabled(true);
             }
         });
 
         sendToLpr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filePath = getRealPathFromUri(pictureUri);
                 Log.e("Path to image", filePath);
                 getResponse();
-                getOwnerInfo.setEnabled(true);
             }
         });
 
@@ -111,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.e("Success response ", response);
                         textView.setText("Recognition Successful");
-                        recognitionResultPlaceholder.setText(RecognizedPlateInfo.getLicensePlate(response));
+                        String licensePlateNumber = RecognizedPlateInfo.getLicensePlate(response);
+                        recognitionResultPlaceholder.setText(licensePlateNumber);
+                        getOwnerInfo.setEnabled(!licensePlateNumber.equals(RecognizedPlateInfo.NO_STRING_DETECTED));
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -208,7 +207,9 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == PICK_GALLERY_CODE){
             pictureUri = data.getData();
             imageView.setImageURI(pictureUri);
+            filePath = getRealPathFromUri(pictureUri);
         }
+        sendToLpr.setEnabled(true);
     }
 
 }
