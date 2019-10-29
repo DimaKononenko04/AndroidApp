@@ -41,7 +41,7 @@ public class OwnerInputForm extends AppCompatActivity {
         addRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (allFieldsAreFilled()) {
+                if (!allFieldsAreFilled()) {
                     OwnerManager.addOwnerToDb(dbHelper, createOwner());
                     Toast.makeText(OwnerInputForm.this, "Success", Toast.LENGTH_SHORT).show();
                 } else {

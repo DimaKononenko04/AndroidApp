@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                textView.setText("Error during recognition");
+//                textView.setText("Error during recognition");
+                textView.setText(error.getMessage());
                 Log.e("Error response", error.getMessage());
             }
         }){

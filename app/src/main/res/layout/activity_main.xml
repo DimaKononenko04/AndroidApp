@@ -27,7 +27,7 @@
 
         <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="256dp"
+                android:layout_height="344dp"
                 app:srcCompat="@android:drawable/stat_sys_download"
                 android:id="@+id/imageView"/>
 
