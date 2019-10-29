@@ -35,22 +35,18 @@ public class OwnerInputForm extends AppCompatActivity {
         fromInpFormToMainScreen = findViewById(R.id.fromInpFormToMainScreen);
         dbHelper = new DbHelper(this);
 
-        final boolean nameIsEmpty = nameToAdd.getText().toString().isEmpty();
-        final boolean surnameIsEmpty = surnameToAdd.getText().toString().isEmpty();
-        final boolean telephoneIsEmpty = telephoneToAdd.getText().toString().isEmpty();
-        final boolean licensePlateIsEmpty = licensePlateToAdd.getText().toString().isEmpty();
-
         String lpNumber = getIntent().getStringExtra("lpNumber");
         licensePlateToAdd.setText(lpNumber);
 
         addRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!nameIsEmpty && !surnameIsEmpty && !telephoneIsEmpty && !licensePlateIsEmpty){
-                    OwnerManager.addOwnerToDb(dbHelper,createOwner());
-                    Toast.makeText(OwnerInputForm.this,"Success", Toast.LENGTH_SHORT).show();
+                if (allFieldsAreFilled()) {
+                    OwnerManager.addOwnerToDb(dbHelper, createOwner());
+                    Toast.makeText(OwnerInputForm.this, "Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(OwnerInputForm.this, "Fill in all fields", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(OwnerInputForm.this,"Fill in all fields", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -61,6 +57,14 @@ public class OwnerInputForm extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean allFieldsAreFilled(){
+         boolean nameIsEmpty = nameToAdd.getText().toString().isEmpty();
+         boolean surnameIsEmpty = surnameToAdd.getText().toString().isEmpty();
+         boolean telephoneIsEmpty = telephoneToAdd.getText().toString().isEmpty();
+         boolean licensePlateIsEmpty = licensePlateToAdd.getText().toString().isEmpty();
+         return nameIsEmpty && surnameIsEmpty && telephoneIsEmpty && licensePlateIsEmpty;
     }
 
     private Owner createOwner(){
