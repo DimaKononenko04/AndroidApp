@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.icu.text.SimpleDateFormat;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -156,6 +158,26 @@ public class MainActivity extends AppCompatActivity {
         return new Compressor(this).compressToFile(photoFile);
     }
 
+    private Bitmap rotateImage(Bitmap bitmap){
+        ExifInterface exifInterface = null;
+        try {
+            exifInterface = new ExifInterface(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert exifInterface != null;
+        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
+        Matrix matrix = new Matrix();
+        switch (orientation){
+            case ExifInterface.ORIENTATION_ROTATE_90 : matrix.setRotate(90);
+            break;
+            case ExifInterface.ORIENTATION_ROTATE_180 : matrix.setRotate(180);
+            break;
+            default:
+        }
+        return Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+    }
+
     private void selectImage(){
         final CharSequence[] items ={"Camera", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -211,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == PICK_CAMERA_CODE) {
             Log.e("Filepath : ",filePath);
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-            imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(rotateImage(bitmap));
             try {
                 filePath = compressFile(photoFile).getAbsolutePath();
             } catch (IOException e) {
