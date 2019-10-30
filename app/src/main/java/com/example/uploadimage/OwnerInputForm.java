@@ -1,8 +1,8 @@
 package com.example.uploadimage;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +41,8 @@ public class OwnerInputForm extends AppCompatActivity {
         addRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!allFieldsAreFilled()) {
+                Log.e("All fields are filled", String.valueOf(allFieldsAreFilled()));
+                if (allFieldsAreFilled()) {
                     OwnerManager.addOwnerToDb(dbHelper, createOwner());
                     Toast.makeText(OwnerInputForm.this, "Success", Toast.LENGTH_SHORT).show();
                 } else {
@@ -64,7 +65,7 @@ public class OwnerInputForm extends AppCompatActivity {
          boolean surnameIsEmpty = surnameToAdd.getText().toString().isEmpty();
          boolean telephoneIsEmpty = telephoneToAdd.getText().toString().isEmpty();
          boolean licensePlateIsEmpty = licensePlateToAdd.getText().toString().isEmpty();
-         return nameIsEmpty && surnameIsEmpty && telephoneIsEmpty && licensePlateIsEmpty;
+         return !nameIsEmpty && !surnameIsEmpty && !telephoneIsEmpty && !licensePlateIsEmpty;
     }
 
     private Owner createOwner(){

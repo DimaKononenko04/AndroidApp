@@ -15,11 +15,11 @@ import com.example.utils.LayersManager;
 
 public class OwnerInfoPage extends AppCompatActivity {
 
-    TextView name;
-    TextView surname;
-    TextView telephone;
-    TextView licensePlateNumber;
-    Button fromInfoPageToMainScreen;
+    private TextView name;
+    private TextView surname;
+    private TextView telephone;
+    private TextView licensePlateNumber;
+    private Button fromInfoPageToMainScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

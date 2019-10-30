@@ -10,11 +10,6 @@ public class Owner {
     public Owner() {
     }
 
-    // in case of blank object
-    public Owner(String name){
-        this.name = name;
-    }
-
     public Owner(String id, String name, String surname, String telephone, String licensePlate) {
         this.id = id;
         this.name = name;
