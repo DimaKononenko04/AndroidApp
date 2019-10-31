@@ -119,8 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-//                textView.setText("Error during recognition");
-                textView.setText(error.getMessage());
+                textView.setText("Error during recognition");
                 Log.e("Error response", error.getMessage());
             }
         }){
@@ -186,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
     private void getImageFromCamera(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager())!=null) {
-//            File photoFile = createPhotoFile();
             photoFile = createPhotoFile();
             assert photoFile != null;
             filePath = photoFile.getAbsolutePath();
@@ -223,6 +221,14 @@ public class MainActivity extends AppCompatActivity {
             pictureUri = data.getData();
             imageView.setImageURI(pictureUri);
             filePath = getRealPathFromUri(pictureUri);
+
+            // to get compressed image from gallery
+            File file = new File(filePath);
+            try {
+                filePath = compressFile(file).getAbsolutePath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         sendToLpr.setEnabled(true);
     }
