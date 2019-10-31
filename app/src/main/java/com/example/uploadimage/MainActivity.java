@@ -29,7 +29,6 @@ import com.example.plate_recognition.RecognizedPlateInfo;
 import com.example.restapi.AccessEndpoints;
 import com.example.utils.ImageHandler;
 import com.example.utils.PropertiesManager;
-import id.zelory.compressor.Compressor;
 
 import java.io.File;
 import java.io.IOException;
@@ -152,10 +151,6 @@ public class MainActivity extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
-    private File compressFile(File photoFile) throws IOException {
-        return new Compressor(this).compressToFile(photoFile);
-    }
-
     private void selectImage(){
         final CharSequence[] items ={"Camera", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -212,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
             imageView.setImageBitmap(ImageHandler.rotateImage(bitmap,filePath));
             try {
-                filePath = compressFile(photoFile).getAbsolutePath();
+                filePath =ImageHandler.getCompressedFile(photoFile,MainActivity.this).getAbsolutePath();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -225,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             // to get compressed image from gallery
             File file = new File(filePath);
             try {
-                filePath = compressFile(file).getAbsolutePath();
+                filePath =ImageHandler.getCompressedFile(file,MainActivity.this).getAbsolutePath();
             } catch (IOException e) {
                 e.printStackTrace();
             }

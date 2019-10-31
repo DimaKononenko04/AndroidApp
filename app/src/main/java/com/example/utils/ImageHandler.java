@@ -3,7 +3,10 @@ package com.example.utils;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.support.v7.app.AppCompatActivity;
+import id.zelory.compressor.Compressor;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ImageHandler {
@@ -26,5 +29,9 @@ public class ImageHandler {
             default:
         }
         return Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+    }
+
+    public static  <T extends AppCompatActivity> File getCompressedFile(File photoFile, T activity) throws IOException {
+        return new Compressor(activity).compressToFile(photoFile);
     }
 }
