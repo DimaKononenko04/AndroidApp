@@ -38,25 +38,17 @@ public class OwnerInputForm extends AppCompatActivity {
         String lpNumber = getIntent().getStringExtra("lpNumber");
         licensePlateToAdd.setText(lpNumber);
 
-        addRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("All fields are filled", String.valueOf(allFieldsAreFilled()));
-                if (allFieldsAreFilled()) {
-                    OwnerManager.addOwnerToDb(dbHelper, createOwner());
-                    Toast.makeText(OwnerInputForm.this, "Success", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(OwnerInputForm.this, "Fill in all fields", Toast.LENGTH_SHORT).show();
-                }
+        addRecord.setOnClickListener(v -> {
+            Log.e("All fields are filled", String.valueOf(allFieldsAreFilled()));
+            if (allFieldsAreFilled()) {
+                OwnerManager.addOwnerToDb(dbHelper, createOwner());
+                Toast.makeText(OwnerInputForm.this, "Success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(OwnerInputForm.this, "Fill in all fields", Toast.LENGTH_SHORT).show();
             }
         });
 
-        fromInpFormToMainScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayersManager.goToMainScreen(OwnerInputForm.this);
-            }
-        });
+        fromInpFormToMainScreen.setOnClickListener(v -> LayersManager.goToMainScreen(OwnerInputForm.this));
 
     }
 

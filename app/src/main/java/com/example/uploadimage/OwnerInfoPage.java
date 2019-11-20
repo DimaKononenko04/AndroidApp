@@ -33,12 +33,7 @@ public class OwnerInfoPage extends AppCompatActivity {
         fromInfoPageToMainScreen = findViewById(R.id.fromInfoPageToMainScreen);
         checkIfOwnerIsInDb();
 
-        fromInfoPageToMainScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayersManager.goToMainScreen(OwnerInfoPage.this);
-            }
-        });
+        fromInfoPageToMainScreen.setOnClickListener(v -> LayersManager.goToMainScreen(OwnerInfoPage.this));
     }
 
     private void checkIfOwnerIsInDb(){
@@ -60,14 +55,11 @@ public class OwnerInfoPage extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(OwnerInfoPage.this);
         builder
                 .setTitle("\tNo info in DB\n\tAdd new record?")
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (items[which].equals("Yes")){
-                            showOwnerInputForm();
-                        }else if (items[which].equals("No")){
-                            LayersManager.goToMainScreen(OwnerInfoPage.this);
-                        }
+                .setItems(items, (dialog, which) -> {
+                    if (items[which].equals("Yes")){
+                        showOwnerInputForm();
+                    }else if (items[which].equals("No")){
+                        LayersManager.goToMainScreen(OwnerInfoPage.this);
                     }
                 });
         builder.show();

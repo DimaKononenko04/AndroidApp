@@ -73,27 +73,14 @@ public class MainActivity extends AppCompatActivity {
         getOwnerInfo.setEnabled(false);
 
 
-        chooseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImage();
-            }
+        chooseImage.setOnClickListener(v -> selectImage());
+
+        sendToLpr.setOnClickListener(v -> {
+            Log.e("Path to image", filePath);
+            getResponse();
         });
 
-        sendToLpr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("Path to image", filePath);
-                getResponse();
-            }
-        });
-
-        getOwnerInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showOwnerInfo();
-            }
-        });
+        getOwnerInfo.setOnClickListener(v -> showOwnerInfo());
 
     }
 
@@ -106,22 +93,16 @@ public class MainActivity extends AppCompatActivity {
     private void getResponse(){
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         SimpleMultiPartRequest smr = new SimpleMultiPartRequest(Request.Method.POST, AccessEndpoints.LPR_URI,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.e("Success response ", response);
-                        textView.setText("Recognition Successful");
-                        String licensePlateNumber = RecognizedPlateInfo.getLicensePlate(response);
-                        recognitionResultPlaceholder.setText(licensePlateNumber);
-                        getOwnerInfo.setEnabled(!licensePlateNumber.equals(RecognizedPlateInfo.NO_STRING_DETECTED));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                textView.setText("Error during recognition");
-                Log.e("Error response", error.getMessage());
-            }
-        }){
+                response -> {
+                    Log.e("Success response ", response);
+                    textView.setText("Recognition Successful");
+                    String licensePlateNumber = RecognizedPlateInfo.getLicensePlate(response);
+                    recognitionResultPlaceholder.setText(licensePlateNumber);
+                    getOwnerInfo.setEnabled(!licensePlateNumber.equals(RecognizedPlateInfo.NO_STRING_DETECTED));
+                }, error -> {
+                    textView.setText("Error during recognition");
+                    Log.e("Error response", error.getMessage());
+                }){
             @Override
             public Map<String,String> getHeaders() {
                 Map<String,String> params = new HashMap<>();
@@ -156,16 +137,13 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder
                 .setTitle("Add image")
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (items[which].equals("Camera")){
-                            getImageFromCamera();
-                        }else if (items[which].equals("Gallery")){
-                            pickImageFromGallery();
-                        }else if (items[which].equals("Cancel")){
-                            dialog.dismiss();
-                        }
+                .setItems(items, (dialog, which) -> {
+                    if (items[which].equals("Camera")){
+                        getImageFromCamera();
+                    }else if (items[which].equals("Gallery")){
+                        pickImageFromGallery();
+                    }else if (items[which].equals("Cancel")){
+                        dialog.dismiss();
                     }
                 });
         builder.show();
