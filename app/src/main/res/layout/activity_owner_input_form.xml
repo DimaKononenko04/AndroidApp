@@ -14,14 +14,14 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:text="Add owner info"
+                android:text="Додайте інформацію про користувача"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView12"/>
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:text="Name"
+                android:text="Ім'я"
                 android:layout_width="91dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/nameView"/>
@@ -36,7 +36,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:text="Surname"
+                android:text="Прізвище"
                 android:layout_width="93dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/surnameView"/>
@@ -51,7 +51,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:text="Telephone"
+                android:text="Телефон"
                 android:layout_width="93dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/telephoneView"/>
@@ -66,7 +66,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:text="License Plate"
+                android:text="Номерний знак"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/licensePlateView"/>
@@ -81,14 +81,14 @@
 
         <Button
                 style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:text="Add record"
+                android:text="Додати запис"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/addRecord"/>
 
         <Button
                 style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:text="Back to main screen"
+                android:text="На головний екран"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/fromInpFormToMainScreen"/>

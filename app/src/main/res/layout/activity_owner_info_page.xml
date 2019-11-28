@@ -15,7 +15,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:text="Name"
+                android:text="Ім'я"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"/>
@@ -28,7 +28,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:text="Surname"
+                android:text="Прізвище"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4"/>
@@ -41,7 +41,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:text="Telephone"
+                android:text="Телефон"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView6"/>
@@ -54,7 +54,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:text="License plate number"
+                android:text="Номерний знак"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView7"/>
@@ -67,7 +67,7 @@
 
         <Button
                 style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:text="Back to main screen"
+                android:text="На головний екран"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/fromInfoPageToMainScreen"/>

@@ -19,7 +19,7 @@
                 android:id="@+id/textView"/>
 
         <Button
-                android:text="Choose image"
+                android:text="Виберіть Зображення"
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,20 +32,20 @@
                 android:id="@+id/imageView"/>
 
         <Button
-                android:text="Recognize license plate"
+                android:text="Розпізнати номерний знак"
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sendToLpr"/>
 
         <TextView
-                android:text="Recognized LP number will appear here"
+                android:text="Розпізнаний номерний знак зявиться тут"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recognitionResultPlaceholder"/>
 
         <Button
-                android:text="View owner info"
+                android:text="Переглянути інформацію власника"
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

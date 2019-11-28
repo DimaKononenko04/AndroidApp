@@ -1,6 +1,5 @@
 package com.example.uploadimage;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -14,14 +13,11 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.error.VolleyError;
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.application_permissions.Permissions;
@@ -95,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
         SimpleMultiPartRequest smr = new SimpleMultiPartRequest(Request.Method.POST, AccessEndpoints.LPR_URI,
                 response -> {
                     Log.e("Success response ", response);
-                    textView.setText("Recognition Successful");
+                    textView.setText("Розпізнавання успішне");
                     String licensePlateNumber = RecognizedPlateInfo.getLicensePlate(response);
                     recognitionResultPlaceholder.setText(licensePlateNumber);
                     getOwnerInfo.setEnabled(!licensePlateNumber.equals(RecognizedPlateInfo.NO_STRING_DETECTED));
                 }, error -> {
-                    textView.setText("Error during recognition");
+                    textView.setText("Помилка при розпізнаванні");
                     Log.e("Error response", error.getMessage());
                 }){
             @Override
@@ -133,16 +129,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectImage(){
-        final CharSequence[] items ={"Camera", "Gallery", "Cancel"};
+        final CharSequence[] items ={"Камера", "Галерея", "Скасувати"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder
-                .setTitle("Add image")
+                .setTitle("Додайте зображення")
                 .setItems(items, (dialog, which) -> {
-                    if (items[which].equals("Camera")){
+                    if (items[which].equals("Камера")){
                         getImageFromCamera();
-                    }else if (items[which].equals("Gallery")){
+                    }else if (items[which].equals("Галерея")){
                         pickImageFromGallery();
-                    }else if (items[which].equals("Cancel")){
+                    }else if (items[which].equals("Скасувати")){
                         dialog.dismiss();
                     }
                 });
@@ -185,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
             imageView.setImageBitmap(ImageHandler.rotateImage(bitmap,filePath));
             try {
-                filePath =ImageHandler.getCompressedFile(photoFile,MainActivity.this).getAbsolutePath();
+                filePath = ImageHandler.getCompressedFile(photoFile,MainActivity.this).getAbsolutePath();
             } catch (IOException e) {
                 e.printStackTrace();
             }
