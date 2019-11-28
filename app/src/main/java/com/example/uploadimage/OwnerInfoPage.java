@@ -49,7 +49,7 @@ public class OwnerInfoPage extends AppCompatActivity {
     }
 
     private void selectOption(){
-        final CharSequence[] items ={"Yes", "No"};
+        final CharSequence[] items ={"Так", "Ні"};
         AlertDialog.Builder builder = new AlertDialog.Builder(OwnerInfoPage.this);
         builder
                 .setTitle("\tНе знайдено в БД\n\tДодати новий запис?")
