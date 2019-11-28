@@ -14,7 +14,7 @@
 
         <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body2"
-                android:text="Додайте інформацію про користувача"
+                android:text="Додайте інформацію про власника"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView12"/>
