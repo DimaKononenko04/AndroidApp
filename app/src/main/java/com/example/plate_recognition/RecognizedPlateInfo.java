@@ -4,7 +4,7 @@ import com.example.plate_recognition.model.LprInfo;
 import com.example.plate_recognition.model_manager.Entity;
 
 public class RecognizedPlateInfo {
-    public static final String NO_STRING_DETECTED ="no plate was detected";
+    public static final String NO_STRING_DETECTED ="номерний знак не знайдено";
 
     public static String getLicensePlate(String response){
         return !Entity.getContent(response, LprInfo.getLPRInfo()).getResults().isEmpty()
