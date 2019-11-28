@@ -52,11 +52,11 @@ public class OwnerInfoPage extends AppCompatActivity {
         final CharSequence[] items ={"Yes", "No"};
         AlertDialog.Builder builder = new AlertDialog.Builder(OwnerInfoPage.this);
         builder
-                .setTitle("\tNo info in DB\n\tAdd new record?")
+                .setTitle("\tНе знайдено в БД\n\tДодати новий запис?")
                 .setItems(items, (dialog, which) -> {
-                    if (items[which].equals("Yes")){
+                    if (items[which].equals("Так")){
                         showOwnerInputForm();
-                    }else if (items[which].equals("No")){
+                    }else if (items[which].equals("Ні")){
                         LayersManager.goToMainScreen(OwnerInfoPage.this);
                     }
                 });
