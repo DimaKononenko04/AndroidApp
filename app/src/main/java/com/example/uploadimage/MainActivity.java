@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     textView.setText("Розпізнавання успішне");
                     String licensePlateNumber = RecognizedPlateInfo.getLicensePlate(response);
                     recognitionResultPlaceholder.setText(licensePlateNumber);
-                    getOwnerInfo.setEnabled(!licensePlateNumber.equals(RecognizedPlateInfo.NO_STRING_DETECTED));
+                    getOwnerInfo.setEnabled(!licensePlateNumber.equals(RecognizedPlateInfo.NO_PLATE_DETECTED));
                 }, error -> {
                     textView.setText("Помилка при розпізнаванні");
                     Log.e("Error response", error.getMessage());
